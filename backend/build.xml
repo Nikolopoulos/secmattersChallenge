@@ -1,0 +1,55 @@
+<project name="DB-Import-Export" default="database-dump" basedir=".">
+    <description>
+        Database import/export ant tasks
+    </description>
+
+    <path id="runtime-classpath">
+        <fileset dir="deployment">
+            <include name="**/*.jar"/>
+            <include name="**/*.zip"/>
+
+        </fileset>
+    </path>
+
+
+    <target name="database-setup"
+            description="Creates the database structure and inserts data into the database">
+        <taskdef name="ddlToDatabase"
+                 classname="org.apache.ddlutils.task.DdlToDatabaseTask">
+            <classpath refid="runtime-classpath"/>
+        </taskdef>
+
+        <ddlToDatabase>
+            <database url="jdbc:derby://localhost:1527/sample"
+                      driverClassName="org.apache.derby.jdbc.ClientDriver"
+                      username="app"
+                      password="app"/>
+            <fileset dir="src/test/resources">
+                <include name="db-schema.xml"/>
+            </fileset>
+
+            <createDatabase failonerror="false"/>
+
+            <writeSchemaToDatabase/>
+            <writeDataToDatabase datafile="src/data/data.xml"/>
+        </ddlToDatabase>
+    </target>
+
+    <target name="database-dump" description="Dumps the database structure">
+        <taskdef name="databaseToDdl"
+                 classname="org.apache.ddlutils.task.DatabaseToDdlTask">
+            <classpath refid="runtime-classpath"/>
+
+        </taskdef>
+        <databaseToDdl modelName="MyModel">
+            <database url="jdbc:derby://localhost:1527/sample"
+                      driverClassName="org.apache.derby.jdbc.ClientDriver"
+                      username="app"
+                      password="app"/>
+
+            <writeSchemaToFile outputFile="db-schema.xml"/>
+            <writeDataToFile outputFile="data.xml"/>
+        </databaseToDdl>
+
+    </target>
+</project>

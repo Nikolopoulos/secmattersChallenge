@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <!-- APPLICATION NAME -->
+    <display-name>Challenge application</display-name>
+    <!-- DEFAULT CONFIGURATION -->
+    <context-param>
+        <param-name>configuration</param-name>
+        <param-value>deployment</param-value>
+    </context-param>
+    <!-- ADD WICKET FILTER -->
+    <filter>
+        <!-- Be very careful in change the filter name. It is also used
+             for exposing JMX application info -->
+        <filter-name>ChallengeFilter</filter-name>
+        <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+        <init-param>
+            <param-name>applicationClassName</param-name>
+            <param-value>com.secmatters.demo.challenge.gui.ChallengeApplication</param-value>
+        </init-param>
+    </filter>
+    <!-- ENABLE WICKET FILTER FOR ALL URLS -->
+    <filter-mapping>
+        <filter-name>ChallengeFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- SESSION TIMEOUT -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+        <tracking-mode>COOKIE</tracking-mode>
+    </session-config>
+</web-app>

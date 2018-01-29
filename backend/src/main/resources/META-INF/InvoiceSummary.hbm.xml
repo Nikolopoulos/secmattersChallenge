@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd&quot;>
+<hibernate-mapping>
+    <class entity-name="CityStateRevenueReport">
+        <id name="Id" type="java.lang.String" column="report_id">
+            <generator class="sequence" />
+        </id>
+        <property name="city" type="string" column="city" />
+        <property name="state" type="string" column="state" />
+        <property name="revenue" type="double" column="revenue" />
+    </class>
+</hibernate-mapping>

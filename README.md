@@ -1,2 +1,0 @@
-# secmattersChallenge
-secMattersChallenge

@@ -1,0 +1,23 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://wicket.apache.org">
+    <head>
+        <title>Challenge application</title>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+    </head>
+    <body>
+        <wicket:link><a href="../Home.html">Home</a></wicket:link>
+        <h1>
+            <i><span wicket:id="title"></span></i>
+        </h1>
+        <a wicket:id="addLink">Add item</a>
+        <a wicket:id="removeLink">Remove items</a>
+        <table  class="dataview" wicket:id="dataTable"></table>
+        <wicket:fragment wicket:id="selector">
+            <input wicket:id="checkbox" type="checkbox"></input>
+        </wicket:fragment>
+        <wicket:fragment wicket:id="headerLink">
+            <a wicket:id="link"></a>
+        </wicket:fragment>
+        <div wicket:id="editModal"></div>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A single persitence descriptor for both the test and the target enviroments
+     is safer. Having one descriptor for each evironment makes the test loading
+     both causing confusion on which persistence unit is going to be used -->
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.secmatters.demo.challenge.persistence_unit_local" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.DiscountCode</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.ProductCode</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.PurchaseOrder</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.MicroMarket</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.Product</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.Customer</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.Manufacturer</class>
+    <properties>
+      <property name="eclipselink.target-database" value="DERBY"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/sample"/>
+      <property name="javax.persistence.jdbc.user" value="app"/>
+      <property name="javax.persistence.jdbc.password" value="app"/>
+      <property name="eclipselink.canonicalmodel.subpackage" value="prod"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="com.secmatters.demo.challenge.persistence_unit_embedded" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.DiscountCode</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.ProductCode</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.PurchaseOrder</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.MicroMarket</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.Product</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.Customer</class>
+    <class>com.secmatters.demo.challenge.backend.entity.beans.Manufacturer</class>
+    <properties>
+      <!--        <property name="eclipselink.logging.level" value="FINE" />-->
+      <property name="eclipselink.target-database" value="DERBY"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:sample;create=true"/>
+      <property name="javax.persistence.jdbc.user" value="app"/>
+      <property name="javax.persistence.jdbc.password" value="app"/>
+      <property name="eclipselink.canonicalmodel.subpackage" value="test"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop"/>
+    </properties>
+  </persistence-unit>
+</persistence>

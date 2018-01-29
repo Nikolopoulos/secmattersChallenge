@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database xmlns="http://db.apache.org/ddlutils/schema/1.1" name="MyModel">
+  <table name="CUSTOMER" description="">
+    <column name="CUSTOMER_ID" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"></column>
+    <column name="DISCOUNT_CODE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"></column>
+    <column name="ZIP" primaryKey="false" required="true" type="VARCHAR" size="10" autoIncrement="false"></column>
+    <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"></column>
+    <column name="ADDRESSLINE1" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"></column>
+    <column name="ADDRESSLINE2" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"></column>
+    <column name="CITY" primaryKey="false" required="false" type="VARCHAR" size="25" autoIncrement="false"></column>
+    <column name="STATE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"></column>
+    <column name="PHONE" primaryKey="false" required="false" type="CHAR" size="12" autoIncrement="false"></column>
+    <column name="FAX" primaryKey="false" required="false" type="CHAR" size="12" autoIncrement="false"></column>
+    <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"></column>
+    <column name="CREDIT_LIMIT" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"></column>
+    <foreign-key foreignTable="DISCOUNT_CODE" name="FOREIGNKEY_DISCOUNT_CODE">
+      <reference local="DISCOUNT_CODE" foreign="DISCOUNT_CODE"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="MICRO_MARKET" name="FOREIGNKEY_ZIP">
+      <reference local="ZIP" foreign="ZIP_CODE"></reference>
+    </foreign-key>
+  </table>
+  <table name="DISCOUNT_CODE" description="">
+    <column name="DISCOUNT_CODE" primaryKey="true" required="true" type="CHAR" size="1" autoIncrement="false"></column>
+    <column name="RATE" primaryKey="false" required="false" type="DECIMAL" size="4,2" autoIncrement="false"></column>
+  </table>
+  <table name="MANUFACTURER" description="">
+    <column name="MANUFACTURER_ID" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"></column>
+    <column name="NAME" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"></column>
+    <column name="ADDRESSLINE1" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"></column>
+    <column name="ADDRESSLINE2" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"></column>
+    <column name="CITY" primaryKey="false" required="false" type="VARCHAR" size="25" autoIncrement="false"></column>
+    <column name="STATE" primaryKey="false" required="false" type="CHAR" size="2" autoIncrement="false"></column>
+    <column name="ZIP" primaryKey="false" required="false" type="CHAR" size="10" autoIncrement="false"></column>
+    <column name="PHONE" primaryKey="false" required="false" type="VARCHAR" size="12" autoIncrement="false"></column>
+    <column name="FAX" primaryKey="false" required="false" type="VARCHAR" size="12" autoIncrement="false"></column>
+    <column name="EMAIL" primaryKey="false" required="false" type="VARCHAR" size="40" autoIncrement="false"></column>
+    <column name="REP" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"></column>
+  </table>
+  <table name="MICRO_MARKET" description="">
+    <column name="ZIP_CODE" primaryKey="true" required="true" type="VARCHAR" size="10" autoIncrement="false"></column>
+    <column name="RADIUS" primaryKey="false" required="false" type="DOUBLE" size="52" autoIncrement="false"></column>
+    <column name="AREA_LENGTH" primaryKey="false" required="false" type="DOUBLE" size="52" autoIncrement="false"></column>
+    <column name="AREA_WIDTH" primaryKey="false" required="false" type="DOUBLE" size="52" autoIncrement="false"></column>
+  </table>
+  <table name="PRODUCT" description="">
+    <column name="PRODUCT_ID" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"></column>
+    <column name="MANUFACTURER_ID" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"></column>
+    <column name="PRODUCT_CODE" primaryKey="false" required="true" type="CHAR" size="2" autoIncrement="false"></column>
+    <column name="PURCHASE_COST" primaryKey="false" required="false" type="DECIMAL" size="12,2" autoIncrement="false"></column>
+    <column name="QUANTITY_ON_HAND" primaryKey="false" required="false" type="INTEGER" size="10" autoIncrement="false"></column>
+    <column name="MARKUP" primaryKey="false" required="false" type="DECIMAL" size="4,2" autoIncrement="false"></column>
+    <column name="AVAILABLE" primaryKey="false" required="false" type="VARCHAR" size="5" autoIncrement="false"></column>
+    <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="50" autoIncrement="false"></column>
+    <foreign-key foreignTable="MANUFACTURER" name="FOREIGNKEY_MANUFACTURER_ID">
+      <reference local="MANUFACTURER_ID" foreign="MANUFACTURER_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="PRODUCT_CODE" name="FOREIGNKEY_PRODUCT_CODE">
+      <reference local="PRODUCT_CODE" foreign="PROD_CODE"></reference>
+    </foreign-key>
+  </table>
+  <table name="PRODUCT_CODE" description="">
+    <column name="PROD_CODE" primaryKey="true" required="true" type="CHAR" size="2" autoIncrement="false"></column>
+    <column name="DISCOUNT_CODE" primaryKey="false" required="true" type="CHAR" size="1" autoIncrement="false"></column>
+    <column name="DESCRIPTION" primaryKey="false" required="false" type="VARCHAR" size="10" autoIncrement="false"></column>
+  </table>
+  <table name="PURCHASE_ORDER" description="">
+    <column name="ORDER_NUM" primaryKey="true" required="true" type="INTEGER" size="10" autoIncrement="false"></column>
+    <column name="CUSTOMER_ID" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"></column>
+    <column name="PRODUCT_ID" primaryKey="false" required="true" type="INTEGER" size="10" autoIncrement="false"></column>
+    <column name="QUANTITY" primaryKey="false" required="false" type="SMALLINT" size="5" autoIncrement="false"></column>
+    <column name="SHIPPING_COST" primaryKey="false" required="false" type="DECIMAL" size="12,2" autoIncrement="false"></column>
+    <column name="SALES_DATE" primaryKey="false" required="false" type="DATE" size="10" autoIncrement="false"></column>
+    <column name="SHIPPING_DATE" primaryKey="false" required="false" type="DATE" size="10" autoIncrement="false"></column>
+    <column name="FREIGHT_COMPANY" primaryKey="false" required="false" type="VARCHAR" size="30" autoIncrement="false"></column>
+    <foreign-key foreignTable="CUSTOMER" name="FOREIGNKEY_CUSTOMER_ID">
+      <reference local="CUSTOMER_ID" foreign="CUSTOMER_ID"></reference>
+    </foreign-key>
+    <foreign-key foreignTable="PRODUCT" name="FOREIGNKEY_PRODUCT_ID">
+      <reference local="PRODUCT_ID" foreign="PRODUCT_ID"></reference>
+    </foreign-key>
+  </table>
+</database>
