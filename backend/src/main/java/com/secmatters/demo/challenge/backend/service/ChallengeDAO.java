@@ -13,6 +13,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.eclipse.persistence.dynamic.DynamicClassLoader;
+import org.eclipse.persistence.internal.jpa.EntityManagerFactoryImpl;
 import org.eclipse.persistence.jpa.JpaHelper;
 import org.eclipse.persistence.jpa.dynamic.JPADynamicHelper;
 import org.eclipse.persistence.sessions.DatabaseSession;
@@ -46,11 +47,6 @@ public class ChallengeDAO implements IChallengeDAO{
 		this.PERSISTENCE_UNIT_NAME = PERSISTENCE_UNIT_NAME;
 		emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 		em = emf.createEntityManager();
-		Session session = JpaHelper.getEntityManager(em).getServerSession();
-	    DynamicClassLoader dynamicClassLoader = DynamicClassLoader.lookup(session);
-	    JPADynamicHelper jpaDynamicHelper = new JPADynamicHelper(em);
-	    
-	    jpaDynamicHelper.
 	}
 	
 	
