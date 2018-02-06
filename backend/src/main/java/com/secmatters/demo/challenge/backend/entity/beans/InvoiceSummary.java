@@ -1,6 +1,5 @@
 package com.secmatters.demo.challenge.backend.entity.beans;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
@@ -12,15 +11,18 @@ import org.hibernate.annotations.Formula;
 import com.secmatters.demo.challenge.backend.entity.IInvoiceSummary;
 
 
-@Entity(name="InvoiceSummary")
 public class InvoiceSummary implements IInvoiceSummary<Customer>{
 	
+	
+	//The annotations don;t really match the reality here,
+	//but I'm leaving them here for future reference
+	//on how we could populate the table if it existed
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "customerId")
 	private Customer customer;
 	
-	@Formula("select SUM((prod.purchaseCost * prod.Markup + prod.purchaseCost )*order.quantity + order.shippingCost) from Product prod, PurchaseOrder order where order.customerId = customerId AND product.productId = order.productId;")
+	@Formula("select SUM((order.productId.purchaseCost * order.productId.Markup + order.productId.purchaseCost )*order.quantity) from PurchaseOrder order where order.customerId = customerId")
 	private Double totalAmount;	
 	
 	public Customer getCustomer() {

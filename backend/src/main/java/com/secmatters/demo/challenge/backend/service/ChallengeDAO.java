@@ -1,8 +1,10 @@
 package com.secmatters.demo.challenge.backend.service;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -34,6 +36,8 @@ import com.secmatters.demo.challenge.backend.entity.beans.Product;
 import com.secmatters.demo.challenge.backend.entity.beans.ProductCode;
 import com.secmatters.demo.challenge.backend.entity.beans.PurchaseOrder;
 
+import org.eclipse.persistence.internal.jpa.EntityManagerImpl;
+
 public class ChallengeDAO implements IChallengeDAO{
 
 	private String PERSISTENCE_UNIT_NAME;
@@ -41,6 +45,8 @@ public class ChallengeDAO implements IChallengeDAO{
 	
 	EntityManagerFactory emf;
 	EntityManager em;
+	List <IInvoiceSummary> iSummaries;
+	boolean inited = false;
 
 	public ChallengeDAO(String PERSISTENCE_UNIT_NAME)
 	{
@@ -149,19 +155,10 @@ public class ChallengeDAO implements IChallengeDAO{
 
 	
 	public Connection getConnection() {
-		/*em.getTransaction().begin();
+		//This is the old way I did the connection. I prefered your way
+		//but I am leaving this in just for historic reasons
 		
-		
-		Connection conn = em.unwrap(java.sql.Connection.class);
-		try {
-			conn.setAutoCommit(true);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("DEBUG OUTPUT OF CONN IS: "+conn);
-		System.out.println("DEBUG OUTPUT OF CONN ISOPEN: "+em.isOpen());*/
-		Connection conn = null;
+		/*Connection conn = null;
 	    Properties connectionProps = new Properties();
 	    connectionProps.put("user", "app");
 	    connectionProps.put("password", "app");
@@ -172,7 +169,10 @@ public class ChallengeDAO implements IChallengeDAO{
 			e.printStackTrace();
 		}
 	    System.out.println("DEBUG OUTPUT OF CONN IS: "+conn);
-	    return conn;
+	    return conn;*/
+		
+		 return ((EntityManagerImpl) (em.getDelegate())).
+	                getServerSession().getAccessor().getPool().acquireConnection().getConnection();
 	}
 
 	
@@ -191,9 +191,30 @@ public class ChallengeDAO implements IChallengeDAO{
 
 	
 	public List<IInvoiceSummary> getInvoiceSummary() {
-		return   em
-                .createQuery("Select i from InvoiceSummary i")
-                .getResultList();
+		
+		//I could load this array once, during the first call of the method
+		//but orders could change and I wanted the array to be fresh
+		iSummaries = new ArrayList<IInvoiceSummary>();
+		List<ICustomer> custs = getCustomers();
+		
+		for(ICustomer c : custs) {
+			InvoiceSummary i = new InvoiceSummary();
+			i.setCustomer((Customer) c);
+			BigDecimal total = em.
+			createQuery("select SUM("
+					+ "((order.productId.purchaseCost * order.productId.markup)/100 + order.productId.purchaseCost )*order.quantity) as x"
+					+ " from PurchaseOrder order "
+					+ " where order.customerId = :custId",BigDecimal.class).setParameter("custId", c).getSingleResult();
+			
+			if(total == null) {
+				i.setTotalAmount(0.0);
+			}
+			else {
+				i.setTotalAmount(total.doubleValue());
+			}			
+			iSummaries.add(i);
+		}
+		return   iSummaries;
 	}
 
 	
