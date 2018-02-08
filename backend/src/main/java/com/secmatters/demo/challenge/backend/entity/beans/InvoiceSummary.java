@@ -5,9 +5,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.Formula;
-
 import com.secmatters.demo.challenge.backend.entity.IInvoiceSummary;
 
 
@@ -22,7 +19,6 @@ public class InvoiceSummary implements IInvoiceSummary<Customer>{
 	@JoinColumn(name = "customerId")
 	private Customer customer;
 	
-	@Formula("select SUM((order.productId.purchaseCost * order.productId.Markup + order.productId.purchaseCost )*order.quantity) from PurchaseOrder order where order.customerId = customerId")
 	private Double totalAmount;	
 	
 	public Customer getCustomer() {
